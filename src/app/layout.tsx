@@ -36,8 +36,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    // The boot script sets data-js and may change data-variant before hydration
-    <html lang="en" className={fontVars} data-variant={defaultVariant} suppressHydrationWarning>
+    // The boot script sets data-js, data-theme, and possibly data-variant before hydration
+    <html lang="en" className={fontVars} data-variant={defaultVariant} data-theme="light" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
       </head>

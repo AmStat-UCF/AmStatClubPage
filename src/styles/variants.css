@@ -1,12 +1,13 @@
 /* Structural differences between design directions.
    Colors and type live in tokens.css; this file only holds what tokens can't express. */
 
-/* ---------- B. Midnight ---------- */
-[data-variant="midnight"] .site-header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-[data-variant="midnight"] .site-footer { border-top: 1px solid rgba(255, 255, 255, 0.1); }
-[data-variant="midnight"] .officer-role { color: var(--accent); }
-[data-variant="midnight"] .officer-photo { outline: 1px solid var(--hair); outline-offset: -1px; }
-[data-variant="midnight"] .officer-photo::after { background: var(--accent); }
+/* ---------- B. Midnight, and dark mode ---------- */
+:is([data-variant="midnight"], [data-theme="dark"]) .site-header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+:is([data-variant="midnight"], [data-theme="dark"]) .site-footer { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+:is([data-variant="midnight"], [data-theme="dark"]) .officer-role { color: var(--accent); }
+:is([data-variant="midnight"], [data-theme="dark"]) .officer-photo { outline: 1px solid var(--hair); outline-offset: -1px; }
+:is([data-variant="midnight"], [data-theme="dark"]) .officer-photo::after { background: var(--accent); }
+/* Midnight-only flourishes; dark mode stays as restrained as Journal */
 [data-variant="midnight"] .hero h1 .split-words > span:last-child { color: var(--accent); }
 [data-variant="midnight"] .stat-strip dd { color: var(--accent); }
 

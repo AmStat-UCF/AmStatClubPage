@@ -3,6 +3,7 @@ import Link from "next/link";
 import mark from "@/assets/mark-on-dark.png";
 import { links } from "@/content/site";
 import NavLink from "./NavLink";
+import ThemeToggle from "./ThemeToggle";
 
 export default function SiteHeader() {
   return (
@@ -24,6 +25,7 @@ export default function SiteHeader() {
             <li><a className="btn btn-gold" href={links.discord}>Join Discord</a></li>
           </ul>
         </nav>
+        <ThemeToggle />
       </div>
     </header>
   );
