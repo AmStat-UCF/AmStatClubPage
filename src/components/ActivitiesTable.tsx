@@ -2,7 +2,7 @@ import type { Activity } from "@/content/site";
 
 export default function ActivitiesTable({ activities }: { activities: Activity[] }) {
   return (
-    <table className="booktabs">
+    <table className="booktabs" data-reveal="table">
       <caption><b>Table 1.</b> Regular activities, and where to start with each one.</caption>
       <thead>
         <tr>
@@ -14,10 +14,10 @@ export default function ActivitiesTable({ activities }: { activities: Activity[]
       <tbody>
         {activities.map((a) => (
           <tr key={a.name}>
-            <td className="activity">{a.name}</td>
+            <td className="activity"><span>{a.name}</span></td>
             <td className="desc">{a.description}</td>
             <td className="next">
-              <a className="ext" href={a.link.href}>{a.link.label}</a>
+              <a className="text-link ext" href={a.link.href}>{a.link.label}</a>
               {a.note && <small>{a.note}</small>}
             </td>
           </tr>

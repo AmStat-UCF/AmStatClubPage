@@ -22,9 +22,19 @@ Then open http://localhost:3000. Pages reload as you save.
 
 ## Editing content
 
-Most updates (links, meeting times, dues, activities, datathon details) only need changes to
-[`src/content/site.ts`](src/content/site.ts). A fact with `value: null` shows a dashed placeholder
-on the site until it's filled in.
+Most updates only need changes in [`src/content/`](src/content/):
+
+| File           | What's in it                                                     |
+| -------------- | ---------------------------------------------------------------- |
+| `site.ts`      | Links, meeting times, dues, activities, datathon details         |
+| `officers.ts`  | Officer names, roles, majors, photos (add photos to `public/officers/`) |
+| `about.ts`     | About page stats, history, FAQ                                   |
+| `design.ts`    | Which design direction is the default; the draft design switcher |
+
+A fact with `value: null` shows a dashed placeholder on the site until it's filled in.
+
+During drafting, a switcher in the bottom-right corner flips between four design directions.
+You can also link to one directly with `?variant=journal|midnight|swiss|varsity`.
 
 ## Layout
 

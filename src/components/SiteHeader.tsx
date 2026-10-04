@@ -6,7 +6,8 @@ import NavLink from "./NavLink";
 
 export default function SiteHeader() {
   return (
-    <header className="site-header on-dark">
+    <header className="site-header">
+      <div className="scroll-progress" aria-hidden="true" />
       <div className="wrap">
         <Link className="brand" href="/" aria-label="AmStat@UCF home">
           <Image src={mark} alt="" width={29} height={42} loading="eager" />

@@ -5,7 +5,7 @@ import { links, site } from "@/content/site";
 
 export default function SiteFooter() {
   return (
-    <footer className="site-footer on-dark">
+    <footer className="site-footer">
       <div className="wrap">
         <div className="footer-grid">
           <Image src={logo} alt="AmStat UCF logo" width={104} height={135} />

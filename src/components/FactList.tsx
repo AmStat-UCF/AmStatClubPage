@@ -1,9 +1,9 @@
 import type { Fact } from "@/content/site";
 
 // Key/value list with booktabs-style rules. Unfilled values show their hint as a placeholder.
-export default function FactList({ facts, tone = "light" }: { facts: Fact[]; tone?: "light" | "dark" }) {
+export default function FactList({ facts, large = false }: { facts: Fact[]; large?: boolean }) {
   return (
-    <dl className={tone === "dark" ? "facts-dark" : "facts"}>
+    <dl className={large ? "facts facts-lg" : "facts"}>
       {facts.map((fact) => (
         <div key={fact.label}>
           <dt>{fact.label}</dt>

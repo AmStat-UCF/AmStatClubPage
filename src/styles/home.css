@@ -1,0 +1,161 @@
+/* Homepage */
+
+.hero { padding-block: clamp(44px, 6vw, 88px) clamp(48px, 6vw, 80px); }
+
+.hero h1 {
+  font-size: clamp(2.7rem, 7.4vw, 6.9rem);
+  line-height: var(--h1-leading);
+  letter-spacing: calc(var(--display-track) - 0.005em);
+  max-width: 15ch;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 5vw, 80px);
+  margin-top: clamp(32px, 4.5vw, 64px);
+  align-items: start;
+}
+
+.lede {
+  font-size: clamp(1.1rem, 1.4vw, 1.25rem);
+  line-height: 1.55;
+  max-width: 40ch;
+}
+.lede sup { line-height: 0; }
+.lede sup a { text-decoration: none; color: var(--muted); font-size: 0.75em; padding-inline: 1px; }
+.lede sup a:hover { color: var(--fg); }
+
+.hero .facts { margin-top: 40px; }
+
+/* ---------- Figure 1 ---------- */
+
+.plot { margin: 0; }
+.plot-panel {
+  padding: clamp(14px, 2vw, 22px);
+  border: 1px solid var(--panel-border);
+}
+.plot-panel svg { width: 100%; height: auto; touch-action: pan-y; }
+.plot-panel .axis text,
+.plot-panel .marker text,
+.plot-panel .hover-label { font-family: var(--mono); font-size: 11px; }
+.plot-panel .axis text { fill: var(--muted); }
+.plot-panel .axis line { stroke: rgba(255, 255, 255, 0.35); }
+.plot-panel .bar { fill: var(--accent); transition: fill 0.2s; }
+.plot-panel .bar.is-hover { fill: #fff; }
+.plot-panel .curve { fill: none; stroke: #fff; stroke-width: 2.25; stroke-linejoin: round; }
+.plot-panel .marker line { stroke: #fff; stroke-width: 1.25; }
+.plot-panel .marker.median line { stroke-dasharray: 4 4; }
+.plot-panel .marker text { fill: #fff; }
+.plot-panel .hover-label { fill: var(--muted); }
+
+.plot-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hair);
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  margin: 0;
+  font: 400 0.82rem/1.4 var(--mono);
+}
+.stats div { display: flex; gap: 7px; }
+.stats dt { color: var(--muted); }
+.stats dd { margin: 0; color: #fff; font-variant-numeric: tabular-nums; min-width: 3.2ch; }
+.plot-controls { display: flex; gap: 8px; }
+
+.plot figcaption {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 62ch;
+}
+.plot figcaption b { color: var(--fg); font-weight: 600; }
+
+/* ---------- Datathon band ---------- */
+
+.band {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(72px, 9vw, 128px);
+}
+.band-curve {
+  position: absolute;
+  inset: auto 0 0 0;
+  width: 100%;
+  height: 78%;
+  pointer-events: none;
+}
+.band-curve path {
+  fill: none;
+  stroke: var(--em);
+  stroke-width: 1.5;
+  opacity: 0.35;
+  vector-effect: non-scaling-stroke;
+}
+.band-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 48px clamp(32px, 6vw, 96px);
+  align-items: end;
+}
+.band h2 {
+  font-size: clamp(3rem, 8.6vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: calc(var(--display-track) - 0.01em);
+}
+.band h2 .em { display: block; color: var(--em); }
+.band .blurb {
+  margin-top: 32px;
+  font-size: clamp(1.05rem, 1.3vw, 1.18rem);
+  max-width: 44ch;
+}
+.band .actions { margin-top: 32px; }
+
+/* ---------- About teaser ---------- */
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 24px clamp(32px, 5vw, 80px);
+}
+.about-grid h2 { font-size: clamp(2.1rem, 4.4vw, 3.6rem); }
+.about-body { font-size: 1.12rem; max-width: 58ch; }
+
+.more-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin-top: 32px;
+  padding: 0;
+  list-style: none;
+}
+.more-links a {
+  font-weight: 500;
+  text-decoration: none;
+  padding-bottom: 3px;
+  background: linear-gradient(var(--accent), var(--accent)) left bottom / 100% 2px no-repeat;
+}
+.more-links a::after {
+  content: "\2192";
+  display: inline-block;
+  margin-left: 0.35em;
+  transition: transform 0.35s var(--ease-out);
+}
+.more-links a:hover::after { transform: translateX(5px); }
+
+@media (max-width: 960px) {
+  .hero-grid,
+  .band-grid,
+  .about-grid { grid-template-columns: 1fr; }
+  .lede, .hero .facts { max-width: 620px; }
+}

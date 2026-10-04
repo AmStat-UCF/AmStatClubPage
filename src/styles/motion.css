@@ -1,0 +1,125 @@
+/* Motion. Everything here is progressive: content is fully visible without JS
+   (the hidden starting states only apply under [data-js]), and all of it
+   switches off for people who ask for reduced motion. */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Each page fades up slightly on arrival and on client-side navigation */
+  .page-enter { animation: page-in 0.7s var(--ease-out) both; }
+  @keyframes page-in { from { opacity: 0; transform: translateY(10px); } }
+
+  /* Headline words rise out of a mask, one after another */
+  .split-words .w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-block: 0.08em 0.12em;
+    margin-block: -0.08em -0.12em;
+  }
+  .split-words .w > span {
+    display: inline-block;
+    animation: word-rise 1s var(--ease-out) both;
+    animation-delay: calc(80ms + var(--i) * 55ms);
+  }
+  @keyframes word-rise { from { transform: translateY(110%) rotate(4deg); } }
+
+  /* Things just under the headline follow it in */
+  .intro-seq > * { animation: rise-in 0.9s var(--ease-out) both; }
+  .intro-seq > :nth-child(1) { animation-delay: 0.35s; }
+  .intro-seq > :nth-child(2) { animation-delay: 0.45s; }
+  .intro-seq > :nth-child(3) { animation-delay: 0.55s; }
+  .intro-seq > :nth-child(4) { animation-delay: 0.65s; }
+  @keyframes rise-in { from { opacity: 0; transform: translateY(16px); } }
+
+  .hero .plot { animation: plot-in 1.1s var(--ease-out) 0.4s both; }
+  @keyframes plot-in { from { opacity: 0; transform: translateY(24px); clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+  /* ---- Scroll reveals (RevealObserver adds .is-in) ---- */
+  [data-js] [data-reveal] {
+    opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.9s var(--ease-out),
+      transform 0.9s var(--ease-out);
+    transition-delay: calc(var(--d, 0) * 80ms);
+  }
+  [data-js] [data-reveal].is-in { opacity: 1; transform: none; }
+
+  /* Heavy rules draw from left to right */
+  [data-js] [data-reveal="rules"] { opacity: 1; transform: none; }
+  [data-js] [data-reveal="rules"] .rule-draw {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 1.2s var(--ease-in-out);
+  }
+  [data-js] [data-reveal="rules"].is-in .rule-draw { transform: scaleX(1); }
+
+  /* Children of a stagger group come in one after another */
+  [data-js] [data-reveal="stagger"] { opacity: 1; transform: none; }
+  [data-js] [data-reveal="stagger"] > * {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
+  }
+  [data-js] [data-reveal="stagger"].is-in > * { opacity: 1; transform: none; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(2) { transition-delay: 0.08s; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(3) { transition-delay: 0.16s; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(4) { transition-delay: 0.24s; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(5) { transition-delay: 0.32s; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(6) { transition-delay: 0.40s; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(7) { transition-delay: 0.48s; }
+  [data-js] [data-reveal="stagger"].is-in > :nth-child(8) { transition-delay: 0.56s; }
+
+  /* Booktabs tables: rows slide in, the activity name leads */
+  [data-js] [data-reveal="table"] { opacity: 1; transform: none; }
+  [data-js] [data-reveal="table"] tbody tr {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  }
+  [data-js] [data-reveal="table"].is-in tbody tr { opacity: 1; transform: none; }
+  [data-js] [data-reveal="table"].is-in tbody tr:nth-child(2) { transition-delay: 0.09s; }
+  [data-js] [data-reveal="table"].is-in tbody tr:nth-child(3) { transition-delay: 0.18s; }
+  [data-js] [data-reveal="table"].is-in tbody tr:nth-child(4) { transition-delay: 0.27s; }
+  [data-js] [data-reveal="table"].is-in tbody tr:nth-child(5) { transition-delay: 0.36s; }
+  [data-js] [data-reveal="table"].is-in tbody tr:nth-child(6) { transition-delay: 0.45s; }
+
+  /* Datathon band: the logo's curve draws itself across the background */
+  [data-js] .band-curve path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 2.6s var(--ease-in-out) 0.2s;
+  }
+  [data-js] .band.is-in .band-curve path { stroke-dashoffset: 0; }
+  [data-js] [data-reveal].band { opacity: 1; transform: none; }
+  [data-js] .band h2 > span {
+    display: block;
+    opacity: 0;
+    transform: translateX(-0.4em);
+    transition: opacity 1s var(--ease-out), transform 1.1s var(--ease-out);
+  }
+  [data-js] .band.is-in h2 > span { opacity: 1; transform: none; }
+  [data-js] .band.is-in h2 > span + span { transition-delay: 0.12s; }
+
+  /* Officer cards: portrait wipes open from the bottom */
+  [data-js] [data-reveal="stagger"] > .officer .officer-photo {
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 1s var(--ease-out);
+    transition-delay: inherit;
+  }
+  [data-js] [data-reveal="stagger"].is-in > .officer .officer-photo { clip-path: inset(0 0 0 0); }
+
+  /* Header tucks away while scrolling down, returns on the way up */
+  [data-scroll="down"] .site-header:not(:focus-within) { transform: translateY(-100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .scroll-progress { display: none !important; }
+}

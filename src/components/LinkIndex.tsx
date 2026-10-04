@@ -7,7 +7,7 @@ export default function LinkIndex({ groups }: { groups: IndexGroup[] }) {
       {groups.map((group) => (
         <div className="index-group" key={group.title}>
           <h3>{group.title}</h3>
-          <ul>
+          <ul data-reveal="stagger">
             {group.items.map((item) => (
               <li key={item.name}>
                 <a href={item.href}>

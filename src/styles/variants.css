@@ -1,0 +1,72 @@
+/* Structural differences between design directions.
+   Colors and type live in tokens.css; this file only holds what tokens can't express. */
+
+/* ---------- B. Midnight ---------- */
+[data-variant="midnight"] .site-header { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+[data-variant="midnight"] .site-footer { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+[data-variant="midnight"] .officer-role { color: var(--accent); }
+[data-variant="midnight"] .officer-photo { outline: 1px solid var(--hair); outline-offset: -1px; }
+[data-variant="midnight"] .officer-photo::after { background: var(--accent); }
+[data-variant="midnight"] .hero h1 .split-words > span:last-child { color: var(--accent); }
+[data-variant="midnight"] .stat-strip dd { color: var(--accent); }
+
+/* ---------- C. Swiss ---------- */
+[data-variant="swiss"] .btn {
+  font-size: 0.78rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1em 1.3em;
+}
+[data-variant="swiss"] .btn-quiet { padding: 0.75em 0.95em; font-size: 0.7rem; }
+[data-variant="swiss"] .lede { font-size: clamp(1.15rem, 1.5vw, 1.35rem); letter-spacing: -0.01em; }
+[data-variant="swiss"] .booktabs .activity { font-weight: 750; letter-spacing: -0.03em; }
+[data-variant="swiss"] .faq summary { font-weight: 700; letter-spacing: -0.02em; }
+[data-variant="swiss"] .officer-photo { aspect-ratio: 1 / 1; }
+[data-variant="swiss"] .officer-no {
+  top: auto;
+  bottom: 10px;
+  left: 12px;
+  font: 800 2.4rem/1 var(--display);
+  letter-spacing: -0.05em;
+  color: var(--fg);
+}
+[data-variant="swiss"] .officer-name { font-weight: 750; letter-spacing: -0.03em; }
+[data-variant="swiss"] .officer-photo::after { background: var(--accent); height: 8px; }
+[data-variant="swiss"] .facts dd,
+[data-variant="swiss"] .facts-lg dd { font-weight: 600; }
+
+/* ---------- D. Varsity ---------- */
+[data-variant="varsity"] .page-head {
+  --bg: var(--accent);
+  --fg: #0b0b0a;
+  --muted: rgba(0, 0, 0, 0.64);
+  --hair: rgba(0, 0, 0, 0.25);
+  background: var(--bg);
+  color: var(--fg);
+}
+[data-variant="varsity"] .hero h1,
+[data-variant="varsity"] .page-head h1 {
+  font-size: clamp(2.9rem, 8.2vw, 8rem);
+  max-width: none;
+}
+[data-variant="varsity"] .band h2 { font-size: clamp(3.6rem, 11vw, 10rem); }
+[data-variant="varsity"] .btn {
+  font-family: var(--display);
+  font-stretch: 85%;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+[data-variant="varsity"] .officer-no {
+  top: 6px;
+  left: 12px;
+  font: 800 3.4rem/1 var(--display);
+  font-stretch: 70%;
+  color: rgba(0, 0, 0, 0.82);
+}
+[data-variant="varsity"] .officer-photo::after { background: #000; height: 6px; }
+[data-variant="varsity"] .officer-name { letter-spacing: 0; }
+[data-variant="varsity"] .booktabs .activity { letter-spacing: 0.01em; }
+[data-variant="varsity"] .stat-strip dd { font-size: clamp(3rem, 6vw, 5.2rem); }
