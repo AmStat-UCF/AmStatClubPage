@@ -16,7 +16,7 @@ export default function AboutPage() {
       <PageHead
         crumb="About"
         title="A home for statistics at UCF."
-        lede="We started in 2023 to give students who like working with data a place to keep learning outside of class. Here’s what the club does, who it’s for, and how it began."
+        lede="We started in 2024 to give students who like working with data a place to keep learning outside of class. Here’s what the club does, who it’s for, and how it began."
       />
 
       <section className="section">

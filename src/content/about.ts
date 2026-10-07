@@ -6,8 +6,8 @@ export type Stat = { label: string; value: number; placeholder?: boolean };
 export const stats: Stat[] = [
   { label: "Founded", value: 2023 },
   { label: "Officers", value: 12 },
-  { label: "Members", value: 140, placeholder: true },
-  { label: "Workshops a semester", value: 6, placeholder: true },
+  { label: "Members", value: 140, placeholder: false },
+  { label: "Workshops a semester", value: 4-6, placeholder: false },
 ];
 
 export const audiences = [
@@ -26,10 +26,9 @@ export const audiences = [
 ];
 
 export const history: { year: string; event: string; placeholder?: boolean }[] = [
-  { year: "2023", event: "Registered as a student organization at UCF." },
   { year: "2024", event: "First full semester of workshops and general body meetings.", placeholder: true },
   { year: "2025", event: "Member project teams launched, with first presentations at the end of the spring semester.", placeholder: true },
-  { year: "2026", event: "First AmStat Datathon.", placeholder: true },
+  { year: "2026", event: "Expanding collabs, hosting an estimathon, planning for UCF's first official datathon.", placeholder: true },
 ];
 
 export const faqs = [
