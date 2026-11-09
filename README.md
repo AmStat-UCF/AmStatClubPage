@@ -29,12 +29,18 @@ Most updates only need changes in [`src/content/`](src/content/):
 | `site.ts`      | Links, meeting times, dues, activities, datathon details         |
 | `officers.ts`  | Officer names, roles, majors, photos (add photos to `public/officers/`) |
 | `about.ts`     | About page stats, history, FAQ                                   |
-| `design.ts`    | Which design direction is the default; the draft design switcher |
+| `design.ts`    | Light/dark theme: storage key and the script that applies it before first paint |
 
 A fact with `value: null` shows a dashed placeholder on the site until it's filled in.
 
-During drafting, a switcher in the bottom-right corner flips between four design directions.
-You can also link to one directly with `?variant=journal|midnight|swiss|varsity`.
+## Design
+
+Light mode is the day sky: white, the logo's blue (`#5392c8`), and navy text. Dark mode is the
+night sky. The footer, the Figure 1 panel, and the datathon band are night surfaces with a star
+field; in dark mode the band flips to daylight. All colors are tokens in `src/styles/tokens.css`.
+
+The logo blue only reaches 3.3:1 contrast on white, so use it for the logo, large headings, and
+graphics. Small text on light backgrounds uses `--brand-text` (`#2a679c`) instead.
 
 ## Layout
 
@@ -43,9 +49,9 @@ src/
   app/
     layout.tsx        fonts, metadata, header and footer shared by every page
     page.tsx          homepage
-    globals.css       all styles; colors and fonts are tokens at the top
-    icon.png          favicon
-  components/         header, footer, tables, and the Figure 1 histogram
-  content/site.ts     editable site content
-  assets/             logo files
+    icon.svg          favicon (icon.png and apple-icon.png are raster copies)
+  assets/logo.ts      the logo as SVG paths, traced from the logo artwork
+  components/         header, footer, logo, star field, tables, and the Figure 1 histogram
+  content/            editable site content
+  styles/             tokens.css (colors, type), then base, home, pages, and motion
 ```

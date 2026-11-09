@@ -45,15 +45,6 @@
   }
   [data-js] [data-reveal].is-in { opacity: 1; transform: none; }
 
-  /* Heavy rules draw from left to right */
-  [data-js] [data-reveal="rules"] { opacity: 1; transform: none; }
-  [data-js] [data-reveal="rules"] .rule-draw {
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.2s var(--ease-in-out);
-  }
-  [data-js] [data-reveal="rules"].is-in .rule-draw { transform: scaleX(1); }
-
   /* Children of a stagger group come in one after another */
   [data-js] [data-reveal="stagger"] { opacity: 1; transform: none; }
   [data-js] [data-reveal="stagger"] > * {
@@ -84,13 +75,22 @@
   [data-js] [data-reveal="table"].is-in tbody tr:nth-child(5) { transition-delay: 0.36s; }
   [data-js] [data-reveal="table"].is-in tbody tr:nth-child(6) { transition-delay: 0.45s; }
 
-  /* Datathon band: the logo's curve draws itself across the background */
-  [data-js] .band-curve path {
+  /* The logo's bell curves trace across the wordmark once, on arrival */
+  .site-header .logo-curve {
     stroke-dasharray: 1;
     stroke-dashoffset: 1;
-    transition: stroke-dashoffset 2.6s var(--ease-in-out) 0.2s;
+    animation: trace 1.8s var(--ease-in-out) 0.3s forwards;
   }
-  [data-js] .band.is-in .band-curve path { stroke-dashoffset: 0; }
+  .site-header .logo-sky { animation-delay: 0.5s; }
+  @keyframes trace { to { stroke-dashoffset: 0; } }
+
+  /* Datathon band: the same two curves sweep in from the left. A clip-path wipe rather than
+     a dash: the band's stretched viewBox needs non-scaling strokes, which skew dash lengths. */
+  [data-js] .band-curve {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 2.4s var(--ease-in-out) 0.2s;
+  }
+  [data-js] .band.is-in .band-curve { clip-path: inset(0); }
   [data-js] [data-reveal].band { opacity: 1; transform: none; }
   [data-js] .band h2 > span {
     display: block;

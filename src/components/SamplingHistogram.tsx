@@ -12,37 +12,34 @@ import {
   type PointerEvent,
   type ReactNode,
 } from "react";
+import StarField from "./StarField";
 
-// Figure 1: a histogram that fills in as draws come from a log-normal(0, 0.5),
-// with the true density on top and live mean/median markers.
-// The SVG is laid out at its real pixel width so labels stay legible on phones.
+// Figure 1: simulated measurements of a star's position, each off by a standard normal
+// error (in arcseconds). The histogram fills in under the true density, with live
+// mean/median markers. The SVG is laid out at its real pixel width so labels stay legible on phones.
 
 const M = { top: 34, right: 12, bottom: 30, left: 12 };
-const X_MAX = 4;
-const BINS = 40;
-const BIN_W = X_MAX / BINS;
-const SIGMA = 0.5;
+const X_MIN = -3.6;
+const X_MAX = 3.6;
+const BINS = 36;
+const BIN_W = (X_MAX - X_MIN) / BINS;
+const TICKS = [-3, -2, -1, 0, 1, 2, 3];
 const MAX_N = 10_000;
 const INITIAL_DRAWS = 500;
 const DRAWS_PER_CLICK = 100;
 const CURVE_STEPS = 240;
 const LABEL_CHAR_W = 11 * 0.6; // IBM Plex Mono advance width at the 11px label size
 
-function pdf(x: number) {
-  if (x <= 0) return 0;
-  const l = Math.log(x);
-  return Math.exp(-(l * l) / (2 * SIGMA * SIGMA)) / (x * SIGMA * Math.sqrt(2 * Math.PI));
-}
+const pdf = (x: number) => Math.exp(-(x * x) / 2) / Math.sqrt(2 * Math.PI);
 
-function drawLogNormal() {
-  // Box–Muller for a standard normal, then exponentiate
+function drawNormal() {
+  // Box–Muller
   let u = 0;
   while (u === 0) u = Math.random();
-  const z = Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());
-  return Math.exp(SIGMA * z);
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());
 }
 
-const drawMany = (k: number) => Array.from({ length: k }, drawLogNormal);
+const drawMany = (k: number) => Array.from({ length: k }, drawNormal);
 
 const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -58,8 +55,8 @@ function reducer(state: Sample, action: Action): Sample {
   for (const x of action.draws) {
     sum += x;
     sumSq += x * x;
-    const b = Math.floor(x / BIN_W);
-    if (b < BINS) counts[b]++;
+    const b = Math.floor((x - X_MIN) / BIN_W);
+    if (b >= 0 && b < BINS) counts[b]++;
   }
   return { values: state.values.concat(action.draws), counts, sum, sumSq };
 }
@@ -76,7 +73,12 @@ function useMediaQuery(query: string, serverValue: boolean) {
   return useSyncExternalStore(subscribe, () => window.matchMedia(query).matches, () => serverValue);
 }
 
-const fmt = (v: number) => v.toFixed(2);
+// Typographic minus, and never "−0.00"
+function signed(v: number, digits: number) {
+  const s = v.toFixed(digits);
+  return Number(s) === 0 ? s.replace("-", "") : s.replace("-", "−");
+}
+const fmt = (v: number) => signed(v, 2);
 
 export default function SamplingHistogram({ children }: { children: ReactNode }) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -169,16 +171,16 @@ export default function SamplingHistogram({ children }: { children: ReactNode })
   const W = vbW - M.left - M.right;
   const H = vbH - M.top - M.bottom;
   const baseline = M.top + H;
-  const sx = (x: number) => M.left + (x / X_MAX) * W;
+  const sx = (x: number) => M.left + ((x - X_MIN) / (X_MAX - X_MIN)) * W;
 
   const n = sample.values.length;
   const densities = sample.counts.map((c) => (n ? c / (n * BIN_W) : 0));
-  const yMax = Math.max(1.15, Math.max(...densities) * 1.05);
+  const yMax = Math.max(0.46, Math.max(...densities) * 1.05);
   const sy = (d: number) => baseline - (d / yMax) * H;
 
   let curve = "";
   for (let i = 0; i <= CURVE_STEPS; i++) {
-    const x = (i / CURVE_STEPS) * X_MAX;
+    const x = X_MIN + (i / CURVE_STEPS) * (X_MAX - X_MIN);
     curve += (i ? "L" : "M") + sx(x).toFixed(1) + " " + sy(pdf(x)).toFixed(1);
   }
 
@@ -207,9 +209,9 @@ export default function SamplingHistogram({ children }: { children: ReactNode })
 
   let hoverText = "";
   if (n && hoverBin >= 0) {
-    const lo = hoverBin * BIN_W;
+    const lo = X_MIN + hoverBin * BIN_W;
     const c = sample.counts[hoverBin];
-    hoverText = `[${lo.toFixed(1)}, ${(lo + BIN_W).toFixed(1)}) ${c} ${c === 1 ? "draw" : "draws"}`;
+    hoverText = `[${signed(lo, 1)}, ${signed(lo + BIN_W, 1)}) ${c} ${c === 1 ? "draw" : "draws"}`;
   } else if (n) {
     hoverText = canHover ? "hover a bar for counts" : "tap a bar for counts";
   }
@@ -224,9 +226,11 @@ export default function SamplingHistogram({ children }: { children: ReactNode })
 
   return (
     <figure className="plot">
-      <div className="plot-panel on-dark">
+      <div className="plot-panel">
+        <StarField sparse />
         <svg
           ref={svgRef}
+          className="chart"
           viewBox={`0 0 ${vbW} ${vbH}`}
           role="img"
           aria-labelledby={captionId}
@@ -243,7 +247,7 @@ export default function SamplingHistogram({ children }: { children: ReactNode })
                 <rect
                   key={i}
                   className={i === hoverBin ? "bar is-hover" : "bar"}
-                  x={sx(i * BIN_W) + 0.5}
+                  x={sx(X_MIN + i * BIN_W) + 0.5}
                   width={Math.max(1, W / BINS - 1)}
                   y={y}
                   height={baseline - y}
@@ -256,18 +260,18 @@ export default function SamplingHistogram({ children }: { children: ReactNode })
 
           <g className="axis" aria-hidden="true">
             <line x1={M.left} x2={M.left + W} y1={baseline + 0.5} y2={baseline + 0.5} />
-            {Array.from({ length: X_MAX + 1 }, (_, t) => (
+            {TICKS.map((t) => (
               <g key={t}>
                 <line x1={sx(t)} x2={sx(t)} y1={baseline} y2={baseline + 5} />
-                <text x={sx(t)} y={baseline + 20} textAnchor={t === 0 ? "start" : t === X_MAX ? "end" : "middle"}>
-                  {t}
+                <text x={sx(t)} y={baseline + 20} textAnchor="middle">
+                  {signed(t, 0)}″
                 </text>
               </g>
             ))}
           </g>
 
           {markers?.map((m) => {
-            const x = sx(Math.min(m.value, X_MAX));
+            const x = sx(Math.min(Math.max(m.value, X_MIN), X_MAX));
             return (
               <g key={m.key} className={`marker ${m.key}`} aria-hidden="true">
                 <line x1={x} x2={x} y1={M.top - 6} y2={baseline} />

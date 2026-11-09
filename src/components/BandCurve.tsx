@@ -1,30 +1,28 @@
-// The right-skewed curve from the logo, drawn wide across the datathon band.
-// Log-normal(0, 0.5) density, sampled once at build time.
-const SIGMA = 0.5;
-
-function pdf(x: number) {
-  if (x <= 0) return 0;
-  const l = Math.log(x);
-  return Math.exp(-(l * l) / (2 * SIGMA * SIGMA)) / (x * SIGMA * Math.sqrt(2 * Math.PI));
-}
-
+// The logo's two bell curves, drawn wide across the datathon band.
+// Both are normal densities centered on the band. Spread and height are measured from the
+// artwork: sd as a fraction of the width, peak and base as fractions of the height.
 const W = 1000;
 const H = 300;
-const X_MAX = 4.4;
-const PEAK = pdf(Math.exp(-SIGMA * SIGMA));
 
-let d = "";
-for (let i = 0; i <= 200; i++) {
-  const x = (i / 200) * X_MAX;
-  const px = (x / X_MAX) * W;
-  const py = H - (pdf(x) / PEAK) * (H - 8);
-  d += (i ? "L" : "M") + px.toFixed(1) + " " + py.toFixed(1);
-}
+const CURVES = [
+  { name: "sky", sd: 0.18, peak: 0.4, base: 0.93 },
+  { name: "ink", sd: 0.2, peak: 0.08, base: 0.69 },
+].map(({ name, sd, peak, base }) => {
+  let d = "";
+  for (let i = 0; i <= 200; i++) {
+    const x = i / 200;
+    const y = base - (base - peak) * Math.exp(-((x - 0.5) ** 2) / (2 * sd * sd));
+    d += (i ? "L" : "M") + (x * W).toFixed(1) + " " + (y * H).toFixed(1);
+  }
+  return { name, d };
+});
 
 export default function BandCurve() {
   return (
     <svg className="band-curve" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
-      <path d={d} pathLength={1} />
+      {CURVES.map((c) => (
+        <path key={c.name} className={c.name} d={c.d} />
+      ))}
     </svg>
   );
 }

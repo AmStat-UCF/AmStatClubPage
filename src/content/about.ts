@@ -4,10 +4,10 @@
 export type Stat = { label: string; value: number; placeholder?: boolean };
 
 export const stats: Stat[] = [
-  { label: "Founded", value: 2023 },
+  { label: "Founded", value: 2024 },
   { label: "Officers", value: 12 },
   { label: "Members", value: 140, placeholder: false },
-  { label: "Workshops a semester", value: 4-6, placeholder: false },
+  { label: "Discord Members", value: 300, placeholder: false },
 ];
 
 export const audiences = [

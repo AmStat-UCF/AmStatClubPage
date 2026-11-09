@@ -5,6 +5,7 @@ import FactList from "@/components/FactList";
 import LinkIndex from "@/components/LinkIndex";
 import SamplingHistogram from "@/components/SamplingHistogram";
 import SplitWords from "@/components/SplitWords";
+import StarField from "@/components/StarField";
 import { activities, datathonFacts, linkIndex, links, meetingFacts } from "@/content/site";
 import { delay } from "@/lib/motion";
 
@@ -12,10 +13,10 @@ export default function Home() {
   return (
     <>
       <section className="hero">
-        <div className="wrap">
-          <h1><SplitWords text="The big tent for statistics at UCF." /></h1>
+        <div className="wrap hero-grid">
+          <div className="hero-copy">
+            <h1><SplitWords text="The big tent for statistics at UCF." /></h1>
 
-          <div className="hero-grid">
             <div className="intro-seq">
               <p className="lede">
                 AmStat@UCF is the University of Central Florida’s chapter of the American Statistical
@@ -32,12 +33,13 @@ export default function Home() {
 
               <FactList facts={meetingFacts} />
             </div>
-
-            <SamplingHistogram>
-              Random draws from a log-normal distribution, close to the curve in our logo. The shape is
-              skewed right, so the mean ends up to the right of the median.
-            </SamplingHistogram>
           </div>
+
+          <SamplingHistogram>
+            Simulated measurements of a star’s position, each off by a little random error. The errors
+            pile up into the bell curve from our logo. Gauss described that curve in 1809, in a book about
+            planetary orbits.
+          </SamplingHistogram>
         </div>
       </section>
 
@@ -52,6 +54,7 @@ export default function Home() {
       </section>
 
       <section className="band" id="datathon" data-reveal="">
+        <StarField />
         <BandCurve />
         <div className="wrap band-grid">
           <div>

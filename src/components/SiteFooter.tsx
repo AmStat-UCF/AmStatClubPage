@@ -1,14 +1,15 @@
-import Image from "next/image";
 import Link from "next/link";
-import logo from "@/assets/logo-on-dark.png";
 import { links, site } from "@/content/site";
+import Logo from "./Logo";
+import StarField from "./StarField";
 
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
+      <StarField />
       <div className="wrap">
         <div className="footer-grid">
-          <Image src={logo} alt="AmStat UCF logo" width={104} height={135} />
+          <Logo className="footer-logo" label={site.name} />
           <div>
             <p className="org">{site.fullName}</p>
             <p>A registered student organization and chapter of the American Statistical Association.</p>
@@ -25,7 +26,7 @@ export default function SiteFooter() {
         </div>
         <div className="footer-base">
           <span>© {new Date().getFullYear()} {site.name}</span>
-          <span>Orlando, Florida</span>
+          <span>28.60° N, 81.20° W · Orlando, Florida</span>
         </div>
       </div>
     </footer>

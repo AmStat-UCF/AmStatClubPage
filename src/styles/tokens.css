@@ -1,54 +1,56 @@
 /* Design tokens.
-   Each design direction (data-variant on <html>) only overrides tokens here,
-   plus a few structural rules in variants.css. Dark and gold areas of the page
-   redefine the same tokens locally, so components never need to know where they sit. */
+   Light is the day sky: white, the logo's blue, navy ink. Dark (data-theme="dark" on <html>)
+   is the night sky. Night and day surfaces redefine the same tokens locally,
+   so components never need to know where they sit. */
 
 :root {
-  /* palette */
-  --accent: #f0cf24;
-  --bg: #f5f5f0;
-  --fg: #121211;
-  --muted: #55554f;
-  --hair: rgba(18, 18, 17, 0.16);
-  --rule: var(--fg);
+  /* brand, measured from the logo artwork */
+  --brand: #5392c8;        /* the letters: 3.3:1 on white, so large type and graphics only */
+  --brand-text: #2a679c;   /* the same blue deepened for small text on light backgrounds, 6:1 */
+  --brand-curve: #7b9cb8;  /* the logo's lighter bell curve */
+  --navy: #0b1c2e;
+  --night: #08101c;
+  --night-raised: #0d1828;
+  --starlight: #e6edf5;
 
-  --dark-bg: #000;
-  --dark-fg: #edede6;
-  --dark-muted: #a3a39b;
-  --dark-hair: rgba(255, 255, 255, 0.18);
+  /* palette */
+  --bg: #fff;
+  --fg: var(--navy);
+  --muted: #56677a;
+  --hair: rgba(11, 28, 46, 0.14);
+  --rule: var(--fg);
+  --accent: var(--brand);
+  --accent-text: var(--brand-text);
+
+  /* logo */
+  --logo-letters: var(--brand);
+  --logo-ink: var(--fg);
+  --logo-curve: var(--brand-curve);
 
   /* buttons */
-  --btn-bg: var(--fg);
-  --btn-fg: var(--bg);
-  --btn-hover-bg: var(--accent);
-  --btn-hover-fg: #000;
+  --btn-bg: var(--navy);
+  --btn-fg: #fff;
+  --btn-hover-bg: var(--brand);
+  --btn-hover-fg: var(--navy);
 
   /* type */
-  --display: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --display-weight: 500;
-  --display-track: -0.025em;
-  --display-transform: none;
-  --display-stretch: normal;
-  --h1-leading: 0.96;
-  --body: var(--font-plex-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --label: var(--font-plex-mono), ui-monospace, "Cascadia Mono", Consolas, monospace;
-  --label-size: 0.8rem;
-  --label-weight: 400;
-  --label-transform: none;
-  --label-track: 0;
+  --sans: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
   --mono: var(--font-plex-mono), ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --display-weight: 600;
+  --display-stretch: 112%;  /* Archivo's width axis, opened up slightly for headings */
+  --display-track: -0.02em;
+  --label-size: 0.78rem;
 
   /* pieces */
-  --em: var(--accent);              /* emphasised word in big headlines */
-  --section-bar: 0px;               /* heavy rule above section headings */
-  --portrait-bg: #e6e5de;
-  --portrait-fg: #d0cec5;
-  --portrait-ink: #8b897f;
+  --em: var(--brand);
+  --portrait-bg: #edf3f9;
+  --portrait-fg: #d5e3f0;
+  --portrait-ink: #6b8297;
   --panel-border: transparent;
 
   /* layout + motion */
   --gutter: clamp(16px, 4vw, 56px);
-  --max: 1280px;
+  --max: 1240px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
@@ -56,108 +58,67 @@
   color-scheme: light;
 }
 
-/* ---------- B. Midnight: the whole site on black, gold as the light source ----------
-   Also the palette for dark mode (data-theme="dark"), which keeps Journal's layout and type. */
-[data-variant="midnight"],
+/* Dark mode: the whole page is night */
 [data-theme="dark"] {
   color-scheme: dark;
-  --bg: #0b0b0a;
-  --fg: #ecebe4;
-  --muted: #9a998f;
-  --hair: rgba(255, 255, 255, 0.12);
-  --rule: rgba(236, 235, 228, 0.9);
-  --dark-bg: #000;
-  --btn-bg: var(--accent);
-  --btn-fg: #000;
+  --bg: var(--night);
+  --fg: var(--starlight);
+  --muted: #8fa0b4;
+  --hair: rgba(230, 237, 245, 0.12);
+  --rule: rgba(230, 237, 245, 0.8);
+  --accent-text: var(--brand);
+  --btn-bg: var(--brand);
+  --btn-fg: var(--night);
   --btn-hover-bg: #fff;
-  --portrait-bg: #151513;
-  --portrait-fg: #252521;
-  --portrait-ink: #6f6e66;
-  --panel-border: rgba(255, 255, 255, 0.12);
-}
-
-/* ---------- C. Swiss: white, heavy grotesk, gold used as solid blocks ---------- */
-[data-variant="swiss"] {
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-  --muted: #5c5c5c;
-  --hair: rgba(0, 0, 0, 0.12);
-  --display: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
-  --display-weight: 800;
-  --display-track: -0.035em;
-  --h1-leading: 0.92;
-  --body: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
-  --label: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
-  --label-size: 0.7rem;
-  --label-weight: 650;
-  --label-transform: uppercase;
-  --label-track: 0.09em;
-  --section-bar: 6px;
-  --portrait-bg: #efefec;
-  --portrait-fg: #dadad5;
-}
-
-/* ---------- D. Varsity: UCF gold up front, condensed athletic type ---------- */
-[data-variant="varsity"] {
-  --bg: #f4f2eb;
-  --fg: #0d0d0c;
-  --muted: #57564f;
-  --hair: rgba(13, 13, 12, 0.15);
-  --display: var(--font-archivo), "Arial Narrow", sans-serif;
-  --display-weight: 800;
-  --display-track: -0.01em;
-  --display-transform: uppercase;
-  --display-stretch: 70%;
-  --h1-leading: 0.86;
-  --label: var(--font-archivo), "Arial Narrow", sans-serif;
-  --label-size: 0.74rem;
-  --label-weight: 700;
-  --label-transform: uppercase;
-  --label-track: 0.12em;
-  --portrait-bg: var(--accent);
-  --portrait-fg: rgba(0, 0, 0, 0.16);
-  --portrait-ink: rgba(0, 0, 0, 0.55);
+  --btn-hover-fg: var(--night);
+  --portrait-bg: var(--night-raised);
+  --portrait-fg: #1a2a40;
+  --portrait-ink: #627a94;
+  --panel-border: var(--hair);
 }
 
 /* ---------- Surfaces ---------- */
 
-/* Dark surfaces: header, footer, chart panel, and (by default) the datathon band */
-.surface-dark,
-.site-header,
+/* Night: the footer, the chart panel, and (by day) the datathon band */
 .site-footer,
 .plot-panel,
 .band {
-  --bg: var(--dark-bg);
-  --fg: var(--dark-fg);
-  --muted: var(--dark-muted);
-  --hair: var(--dark-hair);
-  --rule: var(--dark-fg);
-  --btn-bg: var(--accent);
-  --btn-fg: #000;
+  --bg: var(--night);
+  --fg: var(--starlight);
+  --muted: #8fa0b4;
+  --hair: rgba(230, 237, 245, 0.14);
+  --rule: var(--starlight);
+  --accent: var(--brand);
+  --accent-text: var(--brand);
+  --logo-ink: var(--starlight);
+  --btn-bg: var(--brand);
+  --btn-fg: var(--night);
   --btn-hover-bg: #fff;
-  --btn-hover-fg: #000;
-  --em: var(--accent);
+  --btn-hover-fg: var(--night);
+  --em: var(--brand);
   background: var(--bg);
   color: var(--fg);
 }
 
-/* Gold surface, used by some variants for the band or the hero */
-.surface-accent,
-[data-variant="midnight"] .band,
-[data-theme="dark"] .band,
-[data-variant="swiss"] .band,
-[data-variant="varsity"] .hero {
-  --bg: var(--accent);
-  --fg: #0b0b0a;
-  --muted: rgba(0, 0, 0, 0.64);
-  --hair: rgba(0, 0, 0, 0.18);
-  --rule: #0b0b0a;
-  --btn-bg: #0b0b0a;
-  --btn-fg: var(--accent);
+/* When the page is already night, panels step forward and the footer steps back */
+[data-theme="dark"] .plot-panel { --bg: var(--night-raised); }
+[data-theme="dark"] .site-footer { --bg: #050a12; }
+
+/* Day: in dark mode the datathon band turns to daylight, in the logo's blue.
+   Tints of navy drop under 4.5:1 on this blue, so all of its text stays full navy. */
+[data-theme="dark"] .band {
+  --bg: var(--brand);
+  --fg: var(--navy);
+  --muted: var(--navy);
+  --hair: rgba(11, 28, 46, 0.25);
+  --rule: var(--navy);
+  --accent: var(--navy);
+  --accent-text: var(--navy);
+  --logo-ink: var(--navy);
+  --logo-curve: #fff;
+  --btn-bg: var(--navy);
+  --btn-fg: #fff;
   --btn-hover-bg: #fff;
-  --btn-hover-fg: #000;
+  --btn-hover-fg: var(--navy);
   --em: #fff;
-  background: var(--bg);
-  color: var(--fg);
 }
-[data-variant="swiss"] .band { --em: #0b0b0a; }
